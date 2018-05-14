@@ -7,12 +7,10 @@
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min.js"></script>
-    <script src="vue-innersearch.min.js"></script>
+    <script src="https://unpkg.com/vue-innersearch/vue-innersearch.min.js"></script>
 </head>
 <body>
 <div id="app"></div>
-</body>
-
 <script>
 
     Vue.use(innerSearch.default);
@@ -31,7 +29,8 @@
             template : `
 <section>
     <h1>innerSearch.js</h1>
-
+     <searchbox :field="'firstname'" :realtime="true"></searchbox>
+     <hits></hits>
     <hr/>
 </section>
 `
@@ -39,5 +38,8 @@
     });
 
 </script>
+</body>
+
+
 
 </html>
