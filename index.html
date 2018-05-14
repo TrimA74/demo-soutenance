@@ -36,9 +36,38 @@
     <div class="is-columns">
         <div class="is-column is-one-fifth">
             <div>
-                <refinement-list-filter :field="'gender'" :title="'Gender : '"></refinement-list-filter>
-                <refinement-list-filter :field="'age'" :title="'Age : '"></refinement-list-filter>
-                <refinement-list-filter :field="'state'" :title="'State : '"></refinement-list-filter>
+                <refinement-list-filter :id="'rlf-list'" :field="'state'" :search="false" :title="'State : '" :size="100"  orderKey="_count" orderDirection="desc" operator="AND">
+                    <template slot="label" slot-scope="{ displayCount,clickOnLabel,clickOnItem,items,checkedItems }">
+                        <select name="" id="test" v-model="checkedItems"  @change="clickOnItem(checkedItems)">
+                            <option selected="selected"></option>
+                            <option v-for="(item, index) in items" :value="item.key">
+                                    <label v-if="displayCount" :for="item.key" v-on:click='clickOnLabel(item.key)'>{{ item.key }} ( {{ item.doc_count }} )</label>
+                            </option>
+                        </select>
+                    </template>
+                    <template slot="viewmore"></template>
+                </refinement-list-filter>
+                <refinement-list-filter :field="'gender'" :title="'Gender : '">
+                    <template slot="title" slot-scope="{ title }">
+                        <h3 class="is-refinement-menu-title" style="width: fit-content;display: inline-block;margin-right: 120px;">{{title}}</h3>
+                    </template>
+                    <template slot="label" slot-scope="{ displayCount,clickOnLabel,clickOnItem,items,checkedItems }">
+                        <div  v-for="(item, index) in items" :key="index" class="is-item is-refinement-list">
+                            <input
+                            type="radio"
+                            name="age"
+                            :value="item.key"
+                            v-model="checkedItems"
+                            @change="clickOnItem(checkedItems)">
+                            <label v-if="displayCount" :for="item.key" v-on:click='clickOnLabel(item.key)'>{{ item.key }} ( {{ item.doc_count }} )</label>
+                            <label v-else :for="item.key" v-on:click='clickOnLabel(item.key)'>{{ item.key }}</label>
+                        </div>
+                    </template>
+                    <template slot="uncheck_all" slot-scope="{ uncheckAll }">
+                        <a href="#" v-on:click='uncheckAll()' style="font-size:0.8em">Clear</a>
+                    </template>
+                </refinement-list-filter>
+                <refinement-list-filter :field="'age'" :title="'Age : '" operator="OR"></refinement-list-filter>
             </div>
         </div>
         <div class="is-column">
@@ -71,4 +100,4 @@
 </body>
 
 
- </html>
+</html>
