@@ -33,10 +33,38 @@
 <section>
     <h1 class='is-title'>innerSearch.js</h1>
     <hr class='is-line' />
+
+    
+    <div class="filters" style="width : 90%; margin : 0 auto;">
+        <tag-filter :for="'searchbox'"></tag-filter>
+        <tag-filter :for="'rlf-state'" >
+            <template slot-scope="{ data }">
+                State : {{ data }}
+            </template>
+        </tag-filter>
+        <tag-filter :for="'rlf-age'">
+            <template slot-scope="{ data }">
+                    Age : {{ data }}
+            </template>
+        </tag-filter>
+        <tag-filter :for="'rlf-gender'">
+            <template slot-scope="{ data }">
+                Gender : {{ data }} 
+            </template>
+        </tag-filter>
+        <tag-filter :for="'nlf'"></tag-filter>
+        <tag-filter :for="'searchdatalist'">
+            <template slot-scope="{ data }">
+                {{ data._source.firstname }} {{ data._source.lastname }} (<strong>{{ data._source.gender }}</strong>)
+            </template>
+        </tag-filter>
+        <tag-filter :for="'searchdatalist'" :clearAll="true"></tag-filter>
+    </div>
+
     <div class="is-columns">
         <div class="is-column is-one-fifth">
             <div>
-                <refinement-list-filter :id="'rlf-list'" :field="'state'" :search="false" :title="'State : '" :size="100"  orderKey="_count" orderDirection="desc" operator="AND">
+                <refinement-list-filter :id="'rlf-state'" :field="'state'" :search="false" :title="'State : '" :size="100"  orderKey="_count" orderDirection="desc" operator="AND">
                     <template slot="label" slot-scope="{ displayCount,clickOnLabel,clickOnItem,items,checkedItems }">
                         <select name="" id="test" v-model="checkedItems"  @change="clickOnItem(checkedItems)">
                             <option selected="selected"></option>
@@ -47,7 +75,7 @@
                     </template>
                     <template slot="viewmore"></template>
                 </refinement-list-filter>
-                <refinement-list-filter :field="'gender'" :title="'Gender : '">
+                <refinement-list-filter :id="'rlf-gender'" :field="'gender'" :title="'Gender : '">
                     <template slot="title" slot-scope="{ title }">
                         <h3 class="is-refinement-menu-title" style="width: fit-content;display: inline-block;margin-right: 120px;">{{title}}</h3>
                     </template>
@@ -67,11 +95,16 @@
                         <a href="#" v-on:click='uncheckAll()' style="font-size:0.8em">Clear</a>
                     </template>
                 </refinement-list-filter>
-                <refinement-list-filter :field="'age'" :title="'Age : '" operator="OR"></refinement-list-filter>
+                <refinement-list-filter :field="'age'" :id="'rlf-age'" :title="'Age : '" operator="OR"></refinement-list-filter>
             </div>
         </div>
         <div class="is-column">
-            <searchbox :field="'firstname'" :realtime="true" :autofocus="true"  :timeout="200"  :placeholder="'Search by firstname'"></searchbox>
+            <searchbox :id="'searchbox'" :field="'firstname'" :realtime="true" :autofocus="true"  :timeout="200"  :placeholder="'Search by firstname'"></searchbox>
+            <numeric-list-filter :id="'nlf'" :field="'balance'">
+                <template slot="header">
+                    <h3 class="is-nlf-title">Balance : </h3>
+                </template>
+            </numeric-list-filter>
             <div style="margin: 20px auto;width: 90%">
                 <search-button></search-button>
                 <reset-button :emptyHits="false"></reset-button>
