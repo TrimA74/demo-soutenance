@@ -4,6 +4,9 @@
     <meta charset="UTF-8" />
     <title>Vue InnerSearch</title>
 
+    <!-- Styles -->
+    <link rel="stylesheet" href="default-innersearch-theme.min.css">
+
     <!-- Scripts -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min.js"></script>
@@ -28,10 +31,30 @@
 
             template : `
 <section>
-    <h1>innerSearch.js</h1>
-     <searchbox :field="'firstname'" :realtime="true"></searchbox>
-     <hits></hits>
-    <hr/>
+    <h1 class='is-title'>innerSearch.js</h1>
+    <hr class='is-line' />
+    <div class="is-columns">
+        <div class="is-column is-one-fifth">
+            <div>
+            </div>
+        </div>
+        <div class="is-column">
+            <searchbox :field="'firstname'" :realtime="true"></searchbox>
+            <hits>
+                <template slot="hits" slot-scope="{ hits }">
+                    <div class="is-score is-hits">
+                        <strong v-if="hits.score === 0">No result found</strong>
+                        <strong v-else-if="hits.score === 1">1 result found</strong>
+                        <strong v-else-if="hits.score > 1">{{ hits.score }} results found</strong>
+                    </div>
+                    <div v-for="item in hits.items" :item="item">
+                        <div><strong>Identity (firstname, lastname) :</strong> {{ item._source.firstname }} {{ item._source.lastname }} ({{ item._source.state }}, {{ item._source.gender }} , {{item._source.balance}})</div>
+                    </div>
+                </template>
+            </hits>
+        </div>
+    </div>
+
 </section>
 `
         })
@@ -41,5 +64,4 @@
 </body>
 
 
-
-</html>
+ </html>
