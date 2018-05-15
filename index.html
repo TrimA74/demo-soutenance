@@ -10,37 +10,27 @@
     <script src="https://unpkg.com/vue-innersearch/vue-innersearch.min.js"></script>
 </head>
 <body>
-<div id="app"></div>
+<div id="app">
+    <section>
+        <h1>innerSearch.js</h1>
+         <searchbox :field="'firstname'"></searchbox>
+         <search-button></search-button>
+         <hits></hits>
+        <hr/>
+    </section>
+</div>
 <script>
-
     Vue.use(innerSearch.default);
-
-    window.addEventListener('load', function () {
-        new Vue({
-            el: '#app',
-            data: {},
-            created : function () {
-                // ES server configuration
-                this.setHost('http://es.yinyan.fr');
-                this.setIndex('bank');
-                this.setType('account');
-            },
-
-            template : `
-<section>
-    <h1>innerSearch.js</h1>
-     <searchbox :field="'firstname'"></searchbox>
-     <search-button></search-button>
-     <hits></hits>
-    <hr/>
-</section>
-`
-        })
+    new Vue({
+        el: '#app',
+        data: {},
+        created : function () {
+            // ES server configuration
+            this.setHost('http://es.yinyan.fr');
+            this.setIndex('bank');
+            this.setType('account');
+        }
     });
-
 </script>
 </body>
-
-
-
 </html>
