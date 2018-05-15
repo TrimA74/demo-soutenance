@@ -35,7 +35,7 @@
                             <strong v-else-if="hits.score > 1">{{ hits.score }} results found</strong>
                         </div>
                         <div v-for="item in hits.items" :item="item">
-                            <div><strong>Identity (firstname, lastname) :</strong> {{ item._source.firstname }} {{ item._source.lastname }} ({{ item._source.state }}, {{ item._source.gender }} , {{item._source.balance}})</div>
+                            <div><strong>Identity (firstname, lastname) :</strong> {{ item._source.firstname }} {{ item._source.lastname }} ({{ item._source.state }}, {{ item._source.gender }} , {{item._source.balance}} $ , {{item._source.age}} years old)</div>
                         </div>
                     </template>
                 </hits>
