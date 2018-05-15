@@ -27,6 +27,9 @@
             </div>
             <div class="is-column">
                 <searchbox :field="'firstname'" :realtime="true" :autofocus="true"  :timeout="200"  :placeholder="'Search by firstname'"></searchbox>
+                <div style="margin: 20px auto;width: 90%">
+                    <search-button></search-button>
+                </div>
                 <hits>
                     <template slot="hits" slot-scope="{ hits }">
                         <div class="is-score is-hits">
