@@ -1,70 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <title>Vue InnerSearch</title>
-
-    <!-- Styles -->
-    <link rel="stylesheet" href="default-innersearch-theme.min.css">
-
-    <!-- Scripts -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min.js"></script>
-    <script src="https://unpkg.com/vue-innersearch/vue-innersearch.min.js"></script>
-</head>
-<body>
-<div id="app"></div>
-<script>
-
-    Vue.use(innerSearch.default);
-
-    window.addEventListener('load', function () {
-        new Vue({
-            el: '#app',
-            data: {},
-            created : function () {
-                // ES server configuration
-                this.setHost('http://es.yinyan.fr');
-                this.setIndex('bank');
-                this.setType('account');
-            },
-
-            template : `
-<section>
-    <h1 class='is-title'>innerSearch.js</h1>
-    <hr class='is-line' />
-    <div class="is-columns">
-        <div class="is-column is-one-fifth">
-            <div>
-                <refinement-list-filter :field="'gender'" :title="'Gender : '"></refinement-list-filter>
-                <refinement-list-filter :field="'age'" :title="'Age : '"></refinement-list-filter>
-                <refinement-list-filter :field="'state'" :title="'State : '"></refinement-list-filter>
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+     <meta charset="UTF-8" />
+     <title>Vue InnerSearch</title>
+ 
+     <!-- Scripts -->
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/vuex/3.0.1/vuex.min.js"></script>
+     <script src="https://unpkg.com/vue-innersearch/vue-innersearch.min.js"></script>
+ </head>
+ <body>
+ <div id="app">
+    <section>
+        <h1 class='is-title'>innerSearch.js</h1>
+        <hr class='is-line' />
+        <div class="is-columns">
+            <div class="is-column is-one-fifth">
+                <div>
+                    <refinement-list-filter :field="'gender'" :title="'Gender : '"></refinement-list-filter>
+                    <refinement-list-filter :field="'age'" :title="'Age : '"></refinement-list-filter>
+                    <refinement-list-filter :field="'state'" :title="'State : '"></refinement-list-filter>
+                </div>
+            </div>
+            <div class="is-column">
+                <searchbox :field="'firstname'" :realtime="true" :autofocus="true"  :timeout="200"  :placeholder="'Search by firstname'"></searchbox>
+                <hits>
+                    <template slot="hits" slot-scope="{ hits }">
+                        <div class="is-score is-hits">
+                            <strong v-if="hits.score === 0">No result found</strong>
+                            <strong v-else-if="hits.score === 1">1 result found</strong>
+                            <strong v-else-if="hits.score > 1">{{ hits.score }} results found</strong>
+                        </div>
+                        <div v-for="item in hits.items" :item="item">
+                            <div><strong>Identity (firstname, lastname) :</strong> {{ item._source.firstname }} {{ item._source.lastname }} ({{ item._source.state }}, {{ item._source.gender }} , {{item._source.balance}} $ , {{item._source.age}} years old)</div>
+                        </div>
+                    </template>
+                </hits>
             </div>
         </div>
-        <div class="is-column">
-            <searchbox :field="'firstname'" :realtime="true" :autofocus="true"  :timeout="200"  :placeholder="'Search by firstname'"></searchbox>
-            <hits>
-                <template slot="hits" slot-scope="{ hits }">
-                    <div class="is-score is-hits">
-                        <strong v-if="hits.score === 0">No result found</strong>
-                        <strong v-else-if="hits.score === 1">1 result found</strong>
-                        <strong v-else-if="hits.score > 1">{{ hits.score }} results found</strong>
-                    </div>
-                    <div v-for="item in hits.items" :item="item">
-                        <div><strong>Identity (firstname, lastname) :</strong> {{ item._source.firstname }} {{ item._source.lastname }} ({{ item._source.state }}, {{ item._source.gender }} , {{item._source.balance}} $ , {{item._source.age}} years old)</div>
-                    </div>
-                </template>
-            </hits>
-        </div>
-    </div>
-
-</section>
-`
-        })
-    });
-
-</script>
-</body>
-
-
+    
+    </section>
+ </div>
+ <script>
+     Vue.use(innerSearch.default);
+     new Vue({
+         el: '#app',
+         data: {},
+         created : function () {
+             // ES server configuration
+             this.setHost('http://es.yinyan.fr');
+             this.setIndex('bank');
+             this.setType('account');
+         }
+     });
+ </script>
+ </body>
  </html>
